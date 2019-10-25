@@ -1,6 +1,6 @@
+from urllib.parse import parse_qs, urlparse
 import socketserver
 from http.server import BaseHTTPRequestHandler
-from urllib.parse import parse_qs, urlparse
 
 
 def wait_for_authorization_code():
@@ -29,9 +29,13 @@ def wait_for_authorization_code():
         yield port
         google_auth_response = server.google_auth_response
 
+    yield get_code_from_response(google_auth_response)
+
+
+def get_code_from_response(google_auth_response):
     # auth response is in the form of GET params, so let's parse them:
     params = parse_qs(urlparse(google_auth_response).query)
     if "code" in params:
-        yield params["code"][0]
+        return params["code"][0]
     else:
         raise Exception(f"Failed to get authorization code: {params['error']}")
