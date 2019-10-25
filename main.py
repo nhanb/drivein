@@ -92,9 +92,10 @@ class MainWindow(QMainWindow):
         self.unmountBtn.setEnabled(True)
 
 
-app = QApplication(sys.argv)
+def main():
+    app = QApplication(sys.argv)
 
-window = MainWindow()
-window.show()
+    window = MainWindow()
+    window.show()
 
-app.exec_()
+    app.exec_()

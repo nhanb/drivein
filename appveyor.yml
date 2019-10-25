@@ -1,0 +1,35 @@
+environment:
+
+  matrix:
+    - PYTHON: 'C:\Python37-x64'
+
+install:
+  - '%PYTHON%\python.exe -m pip install --upgrade pip'
+
+build: off
+
+#test_script:
+  #- 'ECHO 1'
+
+after_test:
+  # Build zipapp with shiv, throw it into .\dist\
+  - '%PYTHON%\python.exe -m pip install shiv'
+  - '%PYTHON%\python.exe -m pip install -r requirements.txt --target pylibs'
+  - ps: 'Copy-Item -Path google.py,rclone.py,main.py -Destination pylibs'
+  - ps: 'New-Item -ItemType directory -Path dist'
+  - '%PYTHON%\Scripts\shiv.exe -e main:main --site-packages pylibs -o dist\drivein.pyz'
+
+  # Download and include rclone.exe in .\dist\ too
+  - 'curl -fsS -o rclone.zip "https://downloads.rclone.org/v1.49.5/rclone-v1.49.5-windows-amd64.zip"'
+  - '7z x -y .\rclone.zip'
+  - ps: 'Copy-Item -Path rclone-v1.49.5-windows-amd64\rclone.exe -Destination dist'
+
+  # Include embeddable python too because I'm nice
+  - 'curl -fsS -o python.zip "https://www.python.org/ftp/python/3.7.5/python-3.7.5-embed-amd64.zip"'
+  - '7z x -y .\python.zip -o"dist"'
+  # Have a launcher on the house too:
+  - ps: 'Add-Content dist\launch.bat ".\python.exe drivein.pyz"'
+
+artifacts:
+  - path: dist
+    name: DriveIn-win64
