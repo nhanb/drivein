@@ -1,18 +1,22 @@
 import sys
-import webbrowser
+
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import (
-    QPushButton,
-    QWidget,
-    QVBoxLayout,
-    QMainWindow,
     QApplication,
     QLabel,
-    QDialog,
+    QMainWindow,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
 )
-from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtCore import QUrl
-from google import wait_for_authorization_code, build_oauth_url, get_initial_tokens
-from rclone import write_config, mount, kill, rclone_is_running
+
+from google import (
+    build_oauth_url,
+    get_initial_tokens,
+    wait_for_authorization_code,
+)
+from rclone import kill, mount, rclone_is_running, write_config
 
 
 class MainWindow(QMainWindow):

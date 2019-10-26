@@ -1,7 +1,7 @@
 import json
-import subprocess
 import os
-import signal
+import subprocess
+
 from google import CLIENT_ID, CLIENT_SECRET
 
 # FIXME: mount() and kill() are grossly Windows-specific

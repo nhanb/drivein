@@ -1,8 +1,9 @@
-import uuid
-import requests
-from urllib.parse import parse_qs, urlparse, urlencode
 import socketserver
+import uuid
 from http.server import BaseHTTPRequestHandler
+from urllib.parse import parse_qs, urlencode, urlparse
+
+import requests
 
 CLIENT_ID = "164693485770-h07il8ktpsolga43oivh7hhg8hbgmais.apps.googleusercontent.com"
 CLIENT_SECRET = "MhTtR6tzECYOi7DOGpNPlv2c"
